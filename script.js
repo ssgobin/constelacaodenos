@@ -85,6 +85,11 @@ document.querySelectorAll("[data-open-modal]").forEach((button) => {
   button.addEventListener("click", () => openModal());
 });
 
+if (window.location.hash === "#nova") {
+  window.history.replaceState(null, "", window.location.pathname);
+  setTimeout(() => openModal(), 120);
+}
+
 document.querySelectorAll("[data-close-modal]").forEach((button) => {
   button.addEventListener("click", closeModal);
 });
