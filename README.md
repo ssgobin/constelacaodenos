@@ -1,4 +1,4 @@
-# Constelação de Nós
+# Constellation of us
 
 Diário visual romântico com HTML, CSS, JavaScript, Firebase Firestore, Cloudinary, Firebase Analytics e Three.js.
 
