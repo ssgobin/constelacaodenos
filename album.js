@@ -32,6 +32,7 @@ isSupported().then((supported) => {
 const els = {
   albumGrid: document.querySelector("#album-grid"),
   albumEmpty: document.querySelector("#album-empty"),
+  albumPath: document.querySelector("#album-path"),
   albumTemplate: document.querySelector("#album-template"),
   toast: document.querySelector("#toast"),
 };
@@ -65,6 +66,7 @@ onSnapshot(
 function renderAlbum(memories) {
   els.albumGrid.innerHTML = "";
   els.albumEmpty.hidden = memories.length > 0;
+  els.albumPath.hidden = memories.length === 0;
 
   memories.forEach((memory) => {
     const node = els.albumTemplate.content.firstElementChild.cloneNode(true);
