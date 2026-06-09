@@ -1,0 +1,14 @@
+{
+  "name": "constelacao-de-nos",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Diario visual romantico com Firebase, Cloudinary e Three.js.",
+  "scripts": {
+    "dev": "npx netlify dev",
+    "serve": "npx netlify dev",
+    "start": "npx netlify dev"
+  },
+  "dependencies": {
+    "cloudinary": "^2.8.0"
+  }
+}

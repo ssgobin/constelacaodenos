@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Constelação de Nós, um diário visual romântico para registrar memórias, fotos e retrospectivas."
+    />
+    <title>Constelação de Nós</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <canvas id="space-canvas" aria-hidden="true"></canvas>
+    <div class="ambient-glow ambient-glow-one" aria-hidden="true"></div>
+    <div class="ambient-glow ambient-glow-two" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Ir para o inicio">
+        <span class="brand-mark"></span>
+        <span>Constelação de Nós</span>
+      </a>
+      <nav class="header-actions" aria-label="Navegacao principal">
+        <button class="ghost-button" type="button" data-scroll-retrospective>
+          Retrospectiva
+        </button>
+        <button class="primary-button" type="button" data-open-modal>
+          Inserir memória
+        </button>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero-section" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">Diário visual privado</p>
+          <h1 id="hero-title">Um ceu inteiro para guardar o que a gente vive.</h1>
+          <p class="hero-subtitle">
+            Fotos, datas, frases e pequenos universos organizados em uma linha
+            do tempo romântica, elegante e pronta para virar retrospectiva.
+          </p>
+          <div class="hero-actions">
+            <button class="primary-button large" type="button" data-open-modal>
+              Inserir memória
+            </button>
+            <button class="ghost-button large" type="button" data-scroll-retrospective>
+              Ver retrospectiva
+            </button>
+          </div>
+        </div>
+
+        <aside class="memory-counter" aria-live="polite">
+          <span class="counter-label">Memórias registradas</span>
+          <strong id="memory-count">0</strong>
+          <span class="counter-caption">constelações acesas</span>
+        </aside>
+      </section>
+
+      <section class="timeline-section" aria-labelledby="timeline-title">
+        <div class="section-heading">
+          <p class="eyebrow">Linha do tempo</p>
+          <h2 id="timeline-title">Nosso caminho pelo ano</h2>
+        </div>
+
+        <div id="empty-state" class="empty-state">
+          <span class="empty-orbit"></span>
+          <h3>A primeira memória ainda espera por vocês.</h3>
+          <p>Adicione uma foto, uma data e um texto para acender o primeiro ponto.</p>
+          <button class="primary-button" type="button" data-open-modal>
+            Inserir memória
+          </button>
+        </div>
+
+        <div id="timeline" class="timeline" aria-live="polite"></div>
+      </section>
+
+      <section id="retrospectiva" class="retrospective-section" aria-labelledby="retro-title">
+        <div class="section-heading">
+          <p class="eyebrow">Retrospectiva</p>
+          <h2 id="retro-title">O ano visto pelas nossas estrelas</h2>
+        </div>
+
+        <div class="retro-metrics">
+          <article>
+            <span>Total</span>
+            <strong id="retro-total">0</strong>
+          </article>
+          <article>
+            <span>Primeira memória</span>
+            <strong id="retro-first">-</strong>
+          </article>
+          <article>
+            <span>Última memória</span>
+            <strong id="retro-last">-</strong>
+          </article>
+          <article>
+            <span>Mês mais luminoso</span>
+            <strong id="retro-month">-</strong>
+          </article>
+        </div>
+
+        <div class="retro-gallery-shell">
+          <div id="retro-gallery" class="retro-gallery" aria-label="Galeria de fotos"></div>
+        </div>
+        <p class="retro-final">
+          No fim do ano, tudo que parecia instante vira constelação.
+        </p>
+      </section>
+    </main>
+
+    <div id="memory-modal" class="modal" aria-hidden="true">
+      <div class="modal-backdrop" data-close-modal></div>
+      <section class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-header">
+          <div>
+            <p class="eyebrow">Nova estrela</p>
+            <h2 id="modal-title">Inserir memória</h2>
+          </div>
+          <button class="icon-button" type="button" data-close-modal aria-label="Fechar modal">
+            x
+          </button>
+        </div>
+
+        <form id="memory-form" class="memory-form">
+          <input type="hidden" id="memory-id" />
+          <label>
+            <span>Titulo</span>
+            <input id="title-input" type="text" maxlength="80" required placeholder="Ex: Nosso primeiro café do ano" />
+          </label>
+          <label>
+            <span>Data</span>
+            <input id="date-input" type="date" required />
+          </label>
+          <label>
+            <span>Texto</span>
+            <textarea id="text-input" rows="5" maxlength="900" required placeholder="Conte o que tornou esse momento especial."></textarea>
+          </label>
+          <label>
+            <span>Frase especial opcional</span>
+            <input id="quote-input" type="text" maxlength="130" placeholder="Uma frase que ficou." />
+          </label>
+          <label class="upload-field">
+            <span>Foto</span>
+            <input id="image-input" type="file" accept="image/*" />
+            <small id="image-help">Escolha uma imagem para criar a memória.</small>
+          </label>
+          <img id="image-preview" class="image-preview" alt="Preview da imagem selecionada" />
+
+          <div class="form-actions">
+            <button class="ghost-button" type="button" data-close-modal>Cancelar</button>
+            <button id="save-button" class="primary-button" type="submit">Salvar</button>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <template id="memory-template">
+      <article class="timeline-item reveal">
+        <div class="timeline-media">
+          <img alt="" loading="lazy" />
+        </div>
+        <span class="timeline-dot" aria-hidden="true"></span>
+        <div class="memory-card">
+          <time></time>
+          <h3></h3>
+          <p class="memory-text"></p>
+          <blockquote></blockquote>
+          <div class="card-actions">
+            <button class="ghost-button small" type="button" data-edit>Editar</button>
+            <button class="danger-button small" type="button" data-delete>Excluir</button>
+          </div>
+        </div>
+      </article>
+    </template>
+
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>
